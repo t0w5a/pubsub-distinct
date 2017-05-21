@@ -1,8 +1,8 @@
 {
   "name": "pubsub-distinct",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "PubSub service based on rx-pubsub with an additional publishDistinct() method",
-  "main": "dist/pubsub-dictinct.min.js",
+  "main": "dist/pubsub-distinct.min.js",
   "types": "index.d.ts",
   "scripts": {
     "start": "webpack --config webpack.config.js && webpack-dev-server",

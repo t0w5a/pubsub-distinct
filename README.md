@@ -105,4 +105,4 @@ The description of other methods can be found in the
 [https://github.com/t0w5a/pubsub-distinct](https://github.com/t0w5a/pubsub-distinct)
 
 ### <a name="version"></a>6. Version
-0.0.3
+0.0.4
