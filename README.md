@@ -8,13 +8,13 @@ PubSubDistinct
 6. [Version](#version)
 
 ### <a name="description"></a>1. Description
-`pubsub-distinct` or `PubSubDistinct` is an extension of the `rx-pubsub` service. 
+`pubsub-distinct` or `PubSubDistinct` is an extension of the [rx-pubsub](https://www.npmjs.com/package/rx-pubsub) service. 
 Additionally to the functionality of the `rx-pubsub` it has one more public method `publishDistinct()`
 which publishes only distinct data. It means, the same data will not be published on the same event twice in a row.
 
 #### Example:
 ```javascript
-var pubsub = new PubSubDistinct(); // create new RxPubSub Object
+var pubsub = new PubSubDistinct(); // create new PubSubDistinct Object
 var eventName = 'testEvent';
   
 console.log('register the subscriber to the event');
@@ -53,7 +53,8 @@ subscriber receives data:  Object {testProp: "test Value 3"}
 
 This module is separated from the `rx-pubsub` because of its dependencies and the final size of the module.
 It is using `object-hash` module to generate the hash of the published data. As the result its size is 7 times bigger than `rx-pubsub`.
-So, if you don't need this feature, to publish only distinct data, please take a look at the module `rx-pubsub`.
+So, if you don't need this feature, to publish only distinct data, please take a look at the module 
+[rx-pubsub](https://www.npmjs.com/package/rx-pubsub).
 
 
 ### <a name="installation"></a>2. Installation
@@ -104,4 +105,4 @@ The description of other methods can be found in the
 [https://github.com/t0w5a/pubsub-distinct](https://github.com/t0w5a/pubsub-distinct)
 
 ### <a name="version"></a>6. Version
-0.0.2
+0.0.3
