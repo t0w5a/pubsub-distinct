@@ -67,13 +67,13 @@ npm install pubsub-distinct --save-dev
 In order to use the `PubSubDistinct` service you have to include/import 
 it into your application:
 
-```
+```typescript
 import {PubSubDistinct} from "pubsub-distinct";
 ```
 
 If you want to use it in a plain/vanilla Javascript project then you 
 might just include the js file into your html/page application:
-```
+```html
 <script type="application/javascript" src="./node_modules/pubsub-distinct/dist/pubsub-distinct.min.js"></script>
 ```
 
@@ -81,9 +81,10 @@ Create new `PubSubDistinct` object and use it as it's shown in the above example
   
 
 ### <a name="methods"></a>4. Methods
-The only difference of this module from the `rx-pubsub` is the method `publishDistinct()`:  
+The only difference of this module from the `rx-pubsub` is the method `publishDistinct()`:    
 #### publishDistinct(eventName: string, data: any, previousMessagesNr: number = 1)
-Publish data to an event  
+Publish only distinct data to an event. 
+The same data will not be published two times in a row!  
   
 *Parameters:*  
 **eventName** - Event which should be fired  
@@ -103,4 +104,4 @@ The description of other methods can be found in the
 [https://github.com/t0w5a/pubsub-distinct](https://github.com/t0w5a/pubsub-distinct)
 
 ### <a name="version"></a>6. Version
-0.0.1
+0.0.2

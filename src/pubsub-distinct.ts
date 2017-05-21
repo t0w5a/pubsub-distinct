@@ -1,6 +1,6 @@
 import {ReplaySubject} from 'rxjs/ReplaySubject';
 import {RxPubSub} from 'rx-pubsub'
-let hash = require('object-hash');
+let hash = require('object-hash/index.js');
 
 /**
  * PubSub service based on RxJs ReplaySubject https://github.com/Reactive-Extensions/RxJS/blob/master/doc/api/subjects/replaysubject.md
