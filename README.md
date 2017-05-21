@@ -52,7 +52,7 @@ subscriber receives data:  Object {testProp: "test Value 3"}
 ```
 
 This module is separated from the `rx-pubsub` because of its dependencies and the final size of the module.
-It is using `object-hash` module to generate the hash of the published data. As the result its size it 7 times bigger than `rx-pubsub`.
+It is using `object-hash` module to generate the hash of the published data. As the result its size is 7 times bigger than `rx-pubsub`.
 So, if you don't need this feature, to publish only distinct data, please take a look at the module `rx-pubsub`.
 
 
