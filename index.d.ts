@@ -32,6 +32,8 @@ declare class PubSubDistinct {
 
     public unsubscribe(subscriber: any): PubSubDistinct;
 
+    public unsubscribeAll(subscribers: Subscription[]): PubSubDistinct;
+
     public dispose(eventName: string): PubSubDistinct;
 
     public hasSubscribers(eventName: string): boolean;
