@@ -22,7 +22,7 @@ import {Subscription} from 'rxjs/Subscription';
 declare class PubSubDistinct {
     protected events: any;
 
-    public publish(eventName: string, data: any, previousMessagesNr?: number): PubSubDistinct;
+    public publish(eventName: string, data: any, previousMessagesNr?: number, saveHash?: boolean): PubSubDistinct;
 
     public publishDistinct(eventName: string, data: any, previousMessagesNr?: number): PubSubDistinct;
 
