@@ -1,4 +1,4 @@
-/*! version: "0.0.4" */
+/*! version: "0.0.5" */
 (function webpackUniversalModuleDefinition(root, factory) {
     if (typeof exports === "object" && typeof module === "object") module.exports = factory(); else if (typeof define === "function" && define.amd) define([], factory); else {
         var a = factory();
@@ -57,7 +57,7 @@
             canDefineProperty = true;
         } catch (x) {}
         var hotApplyOnUpdate = true;
-        var hotCurrentHash = "f0bbec2cdd4348f3649f";
+        var hotCurrentHash = "1d8697d6fdde38810988";
         var hotCurrentModuleData = {};
         var hotCurrentParents = [];
         function hotCreateRequire(moduleId) {
@@ -1845,6 +1845,10 @@
                         return n;
                     }, t.prototype.unsubscribe = function(t) {
                         return t && t.unsubscribe(), this;
+                    }, t.prototype.unsubscribeAll = function(t) {
+                        return t && t.forEach(function(t) {
+                            t.unsubscribe();
+                        }), this;
                     }, t.prototype.dispose = function(t) {
                         return this.events[t] ? (this.getSubjectByEventName(t).unsubscribe(), delete this.events[t]) : console.warn("The event [" + t + "] doesn't exist!"), 
                         this;
@@ -1939,8 +1943,9 @@
             }, function(t, e) {
                 (function(t) {
                     "use strict";
-                    "object" == typeof window && window.window === window ? e.root = window : "object" == typeof self && self.self === self ? e.root = self : "object" == typeof t && t.global === t ? e.root = t : !function() {
-                        throw new Error("RxJS could not find any global context (window, self, global)");
+                    var r = "undefined" != typeof window && window, n = "undefined" != typeof self && "undefined" != typeof WorkerGlobalScope && self instanceof WorkerGlobalScope && self, i = "undefined" != typeof t && t, s = r || i || n;
+                    e.root = s, function() {
+                        if (!s) throw new Error("RxJS could not find any global context (window, self, global)");
                     }();
                 }).call(e, function() {
                     return this;
@@ -2025,10 +2030,16 @@
                             }
                         }
                     }, e.prototype.complete = function() {
+                        var t = this;
                         if (!this.isStopped) {
-                            var t = this._parentSubscriber;
-                            this._complete ? t.syncErrorThrowable ? (this.__tryOrSetError(t, this._complete), 
-                            this.unsubscribe()) : (this.__tryOrUnsub(this._complete), this.unsubscribe()) : this.unsubscribe();
+                            var e = this._parentSubscriber;
+                            if (this._complete) {
+                                var r = function() {
+                                    return t._complete.call(t._context);
+                                };
+                                e.syncErrorThrowable ? (this.__tryOrSetError(e, r), this.unsubscribe()) : (this.__tryOrUnsub(r), 
+                                this.unsubscribe());
+                            } else this.unsubscribe();
                         }
                     }, e.prototype.__tryOrUnsub = function(t, e) {
                         try {
