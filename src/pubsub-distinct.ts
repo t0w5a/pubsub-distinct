@@ -1,5 +1,5 @@
-import {ReplaySubject} from 'rxjs/ReplaySubject';
-import {RxPubSub} from 'rx-pubsub'
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { RxPubSub } from 'rx-pubsub'
 let hash = require('object-hash/index.js');
 
 /**
@@ -12,12 +12,16 @@ export class PubSubDistinct extends RxPubSub {
      * @param eventName Event which should be fired
      * @param data Data sent to all Subscribers of the event
      * @param previousMessagesNr Maximum element count of the replay buffer
+     * @param saveHash Boolean should the hash be saved for the current push operation or not. By default is false - hash is not saved
      * @returns {PubSubDistinct}
      */
-    public publish(eventName: string, data: any, previousMessagesNr: number = 1): PubSubDistinct {
-        let hash = this.getDataHash(data);
+    public publish(eventName: string, data: any, previousMessagesNr: number = 1, saveHash: boolean = false): PubSubDistinct {
+        if (saveHash) {
+            let hash = this.getDataHash(data);
+            this.setHashToEvent(eventName, hash);
+        }
+
         let subject = this.getSubjectByEventName(eventName, previousMessagesNr);
-        this.setHashToEvent(eventName, hash);
         //push data to subscriptions/subscribers
         subject.next(data);
 
@@ -83,7 +87,7 @@ export class PubSubDistinct extends RxPubSub {
      * @param eventName Event name
      * @returns {string|boolean} Returns string if there is an event and it has a hash attached to it. FALSE - otherwise
      */
-    protected getEventHash(eventName: string): string|boolean {
+    protected getEventHash(eventName: string): string | boolean {
         if (this.events[eventName]) {
             return this.events[eventName].dataHash;
         }

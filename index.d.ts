@@ -22,7 +22,7 @@ import {Subscription} from 'rxjs/Subscription';
 declare class PubSubDistinct {
     protected events: any;
 
-    public publish(eventName: string, data: any, previousMessagesNr?: number): PubSubDistinct;
+    public publish(eventName: string, data: any, previousMessagesNr?: number, saveHash?: boolean): PubSubDistinct;
 
     public publishDistinct(eventName: string, data: any, previousMessagesNr?: number): PubSubDistinct;
 
@@ -31,6 +31,8 @@ declare class PubSubDistinct {
     public subscribeOnce(eventName: string, callback: (data?: any) => any): Subscription|boolean;
 
     public unsubscribe(subscriber: any): PubSubDistinct;
+
+    public unsubscribeAll(subscribers: Subscription[]): PubSubDistinct;
 
     public dispose(eventName: string): PubSubDistinct;
 
