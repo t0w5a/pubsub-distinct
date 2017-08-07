@@ -14,11 +14,11 @@ which publishes only distinct data. It means, the same data will not be publishe
 
 #### Example:
 ```javascript
-var pubsub = new PubSubDistinct(); // create new PubSubDistinct Object
-var eventName = 'testEvent';
+let pubsub = new PubSubDistinct(); // create new PubSubDistinct Object
+let eventName = 'testEvent';
   
 console.log('register the subscriber to the event');
-var sub1 = pubsub.subscribe(eventName, (data) => {
+let sub1 = pubsub.subscribe(eventName, (data) => {
     console.log('subscriber receives data: ', data);
 });  
   
@@ -105,4 +105,4 @@ The description of other methods can be found in the
 [https://github.com/t0w5a/pubsub-distinct](https://github.com/t0w5a/pubsub-distinct)
 
 ### <a name="version"></a>6. Version
-0.0.4
+0.0.5
