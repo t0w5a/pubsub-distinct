@@ -57,7 +57,7 @@
             canDefineProperty = true;
         } catch (x) {}
         var hotApplyOnUpdate = true;
-        var hotCurrentHash = "1d8697d6fdde38810988";
+        var hotCurrentHash = "40abe2002bad5b17e4c6";
         var hotCurrentModuleData = {};
         var hotCurrentParents = [];
         function hotCreateRequire(moduleId) {
@@ -1943,9 +1943,8 @@
             }, function(t, e) {
                 (function(t) {
                     "use strict";
-                    var r = "undefined" != typeof window && window, n = "undefined" != typeof self && "undefined" != typeof WorkerGlobalScope && self instanceof WorkerGlobalScope && self, i = "undefined" != typeof t && t, s = r || i || n;
-                    e.root = s, function() {
-                        if (!s) throw new Error("RxJS could not find any global context (window, self, global)");
+                    "object" == typeof window && window.window === window ? e.root = window : "object" == typeof self && self.self === self ? e.root = self : "object" == typeof t && t.global === t ? e.root = t : !function() {
+                        throw new Error("RxJS could not find any global context (window, self, global)");
                     }();
                 }).call(e, function() {
                     return this;
@@ -2030,16 +2029,10 @@
                             }
                         }
                     }, e.prototype.complete = function() {
-                        var t = this;
                         if (!this.isStopped) {
-                            var e = this._parentSubscriber;
-                            if (this._complete) {
-                                var r = function() {
-                                    return t._complete.call(t._context);
-                                };
-                                e.syncErrorThrowable ? (this.__tryOrSetError(e, r), this.unsubscribe()) : (this.__tryOrUnsub(r), 
-                                this.unsubscribe());
-                            } else this.unsubscribe();
+                            var t = this._parentSubscriber;
+                            this._complete ? t.syncErrorThrowable ? (this.__tryOrSetError(t, this._complete), 
+                            this.unsubscribe()) : (this.__tryOrUnsub(this._complete), this.unsubscribe()) : this.unsubscribe();
                         }
                     }, e.prototype.__tryOrUnsub = function(t, e) {
                         try {
