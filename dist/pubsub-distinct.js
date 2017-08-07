@@ -1,4 +1,4 @@
-/*! version: "0.1.1" */
+/*! version: "0.1.2" */
 (function webpackUniversalModuleDefinition(root, factory) {
     if (typeof exports === "object" && typeof module === "object") module.exports = factory(); else if (typeof define === "function" && define.amd) define([], factory); else {
         var a = factory();
@@ -57,7 +57,7 @@
             canDefineProperty = true;
         } catch (x) {}
         var hotApplyOnUpdate = true;
-        var hotCurrentHash = "9baa6983cf480651f92b";
+        var hotCurrentHash = "305f7166961145d19d2f";
         var hotCurrentModuleData = {};
         var hotCurrentParents = [];
         function hotCreateRequire(moduleId) {
@@ -1948,9 +1948,8 @@
             }, function(t, e) {
                 (function(t) {
                     "use strict";
-                    var r = "undefined" != typeof window && window, n = "undefined" != typeof self && "undefined" != typeof WorkerGlobalScope && self instanceof WorkerGlobalScope && self, i = "undefined" != typeof t && t, s = r || i || n;
-                    e.root = s, function() {
-                        if (!s) throw new Error("RxJS could not find any global context (window, self, global)");
+                    "object" == typeof window && window.window === window ? e.root = window : "object" == typeof self && self.self === self ? e.root = self : "object" == typeof t && t.global === t ? e.root = t : !function() {
+                        throw new Error("RxJS could not find any global context (window, self, global)");
                     }();
                 }).call(e, function() {
                     return this;
@@ -2035,16 +2034,10 @@
                             }
                         }
                     }, e.prototype.complete = function() {
-                        var t = this;
                         if (!this.isStopped) {
-                            var e = this._parentSubscriber;
-                            if (this._complete) {
-                                var r = function() {
-                                    return t._complete.call(t._context);
-                                };
-                                e.syncErrorThrowable ? (this.__tryOrSetError(e, r), this.unsubscribe()) : (this.__tryOrUnsub(r), 
-                                this.unsubscribe());
-                            } else this.unsubscribe();
+                            var t = this._parentSubscriber;
+                            this._complete ? t.syncErrorThrowable ? (this.__tryOrSetError(t, this._complete), 
+                            this.unsubscribe()) : (this.__tryOrUnsub(this._complete), this.unsubscribe()) : this.unsubscribe();
                         }
                     }, e.prototype.__tryOrUnsub = function(t, e) {
                         try {
@@ -5930,10 +5923,10 @@
             var ciphers = __webpack_require__(54)(crypto);
             exports.createCipher = ciphers.createCipher;
             exports.createCipheriv = ciphers.createCipheriv;
-            var deciphers = __webpack_require__(89)(crypto);
+            var deciphers = __webpack_require__(90)(crypto);
             exports.createDecipher = deciphers.createDecipher;
             exports.createDecipheriv = deciphers.createDecipheriv;
-            var modes = __webpack_require__(80);
+            var modes = __webpack_require__(81);
             function listCiphers() {
                 return Object.keys(modes);
             }
@@ -5944,9 +5937,9 @@
             var aes = __webpack_require__(55);
             var Transform = __webpack_require__(56);
             var inherits = __webpack_require__(59);
-            var modes = __webpack_require__(80);
-            var ebtk = __webpack_require__(81);
-            var StreamCipher = __webpack_require__(82);
+            var modes = __webpack_require__(81);
+            var ebtk = __webpack_require__(82);
+            var StreamCipher = __webpack_require__(83);
             inherits(Cipher, Transform);
             function Cipher(mode, key, iv) {
                 if (!(this instanceof Cipher)) {
@@ -6003,11 +5996,11 @@
                 return out;
             };
             var modelist = {
-                ECB: __webpack_require__(83),
-                CBC: __webpack_require__(84),
-                CFB: __webpack_require__(86),
-                OFB: __webpack_require__(87),
-                CTR: __webpack_require__(88)
+                ECB: __webpack_require__(84),
+                CBC: __webpack_require__(85),
+                CFB: __webpack_require__(87),
+                OFB: __webpack_require__(88),
+                CTR: __webpack_require__(89)
             };
             module.exports = function(crypto) {
                 function createCipheriv(suite, password, iv) {
@@ -6261,10 +6254,10 @@
         var inherits = __webpack_require__(59);
         inherits(Stream, EE);
         Stream.Readable = __webpack_require__(60);
-        Stream.Writable = __webpack_require__(76);
-        Stream.Duplex = __webpack_require__(77);
-        Stream.Transform = __webpack_require__(78);
-        Stream.PassThrough = __webpack_require__(79);
+        Stream.Writable = __webpack_require__(77);
+        Stream.Duplex = __webpack_require__(78);
+        Stream.Transform = __webpack_require__(79);
+        Stream.PassThrough = __webpack_require__(80);
         Stream.Stream = Stream;
         function Stream() {
             EE.call(this);
@@ -6528,8 +6521,8 @@
         exports.Readable = exports;
         exports.Writable = __webpack_require__(69);
         exports.Duplex = __webpack_require__(68);
-        exports.Transform = __webpack_require__(74);
-        exports.PassThrough = __webpack_require__(75);
+        exports.Transform = __webpack_require__(75);
+        exports.PassThrough = __webpack_require__(76);
     }, function(module, exports, __webpack_require__) {
         (function(process) {
             "use strict";
@@ -6543,7 +6536,8 @@
                 return emitter.listeners(type).length;
             };
             var Stream = __webpack_require__(63);
-            var Buffer = __webpack_require__(64).Buffer;
+            var Buffer = __webpack_require__(30).Buffer;
+            var bufferShim = __webpack_require__(64);
             var util = __webpack_require__(65);
             util.inherits = __webpack_require__(59);
             var debugUtil = __webpack_require__(66);
@@ -6611,7 +6605,7 @@
                 if (!state.objectMode && typeof chunk === "string") {
                     encoding = encoding || state.defaultEncoding;
                     if (encoding !== state.encoding) {
-                        chunk = Buffer.from(chunk, encoding);
+                        chunk = bufferShim.from(chunk, encoding);
                         encoding = "";
                     }
                 }
@@ -6819,7 +6813,7 @@
                 state.pipesCount += 1;
                 debug("pipe count=%d opts=%j", state.pipesCount, pipeOpts);
                 var doEnd = (!pipeOpts || pipeOpts.end !== false) && dest !== process.stdout && dest !== process.stderr;
-                var endFn = doEnd ? onend : unpipe;
+                var endFn = doEnd ? onend : cleanup;
                 if (state.endEmitted) processNextTick(endFn); else src.once("end", endFn);
                 dest.on("unpipe", onunpipe);
                 function onunpipe(readable) {
@@ -6843,7 +6837,7 @@
                     dest.removeListener("error", onerror);
                     dest.removeListener("unpipe", onunpipe);
                     src.removeListener("end", onend);
-                    src.removeListener("end", unpipe);
+                    src.removeListener("end", cleanup);
                     src.removeListener("data", ondata);
                     cleanedUp = true;
                     if (state.awaitDrain && (!dest._writableState || dest._writableState.needDrain)) ondrain();
@@ -7090,7 +7084,7 @@
                 return ret;
             }
             function copyFromBuffer(n, list) {
-                var ret = Buffer.allocUnsafe(n);
+                var ret = bufferShim.allocUnsafe(n);
                 var p = list.head;
                 var c = 1;
                 p.data.copy(ret);
@@ -7191,56 +7185,116 @@
     }, function(module, exports, __webpack_require__) {
         module.exports = __webpack_require__(58).EventEmitter;
     }, function(module, exports, __webpack_require__) {
-        var buffer = __webpack_require__(30);
-        var Buffer = buffer.Buffer;
-        if (Buffer.from && Buffer.alloc && Buffer.allocUnsafe && Buffer.allocUnsafeSlow) {
-            module.exports = buffer;
-        } else {
-            Object.keys(buffer).forEach(function(prop) {
-                exports[prop] = buffer[prop];
-            });
-            exports.Buffer = SafeBuffer;
-        }
-        function SafeBuffer(arg, encodingOrOffset, length) {
-            return Buffer(arg, encodingOrOffset, length);
-        }
-        Object.keys(Buffer).forEach(function(prop) {
-            SafeBuffer[prop] = Buffer[prop];
-        });
-        SafeBuffer.from = function(arg, encodingOrOffset, length) {
-            if (typeof arg === "number") {
-                throw new TypeError("Argument must not be a number");
-            }
-            return Buffer(arg, encodingOrOffset, length);
-        };
-        SafeBuffer.alloc = function(size, fill, encoding) {
-            if (typeof size !== "number") {
-                throw new TypeError("Argument must be a number");
-            }
-            var buf = Buffer(size);
-            if (fill !== undefined) {
-                if (typeof encoding === "string") {
-                    buf.fill(fill, encoding);
-                } else {
-                    buf.fill(fill);
+        (function(global) {
+            "use strict";
+            var buffer = __webpack_require__(30);
+            var Buffer = buffer.Buffer;
+            var SlowBuffer = buffer.SlowBuffer;
+            var MAX_LEN = buffer.kMaxLength || 2147483647;
+            exports.alloc = function alloc(size, fill, encoding) {
+                if (typeof Buffer.alloc === "function") {
+                    return Buffer.alloc(size, fill, encoding);
                 }
-            } else {
-                buf.fill(0);
-            }
-            return buf;
-        };
-        SafeBuffer.allocUnsafe = function(size) {
-            if (typeof size !== "number") {
-                throw new TypeError("Argument must be a number");
-            }
-            return Buffer(size);
-        };
-        SafeBuffer.allocUnsafeSlow = function(size) {
-            if (typeof size !== "number") {
-                throw new TypeError("Argument must be a number");
-            }
-            return buffer.SlowBuffer(size);
-        };
+                if (typeof encoding === "number") {
+                    throw new TypeError("encoding must not be number");
+                }
+                if (typeof size !== "number") {
+                    throw new TypeError("size must be a number");
+                }
+                if (size > MAX_LEN) {
+                    throw new RangeError("size is too large");
+                }
+                var enc = encoding;
+                var _fill = fill;
+                if (_fill === undefined) {
+                    enc = undefined;
+                    _fill = 0;
+                }
+                var buf = new Buffer(size);
+                if (typeof _fill === "string") {
+                    var fillBuf = new Buffer(_fill, enc);
+                    var flen = fillBuf.length;
+                    var i = -1;
+                    while (++i < size) {
+                        buf[i] = fillBuf[i % flen];
+                    }
+                } else {
+                    buf.fill(_fill);
+                }
+                return buf;
+            };
+            exports.allocUnsafe = function allocUnsafe(size) {
+                if (typeof Buffer.allocUnsafe === "function") {
+                    return Buffer.allocUnsafe(size);
+                }
+                if (typeof size !== "number") {
+                    throw new TypeError("size must be a number");
+                }
+                if (size > MAX_LEN) {
+                    throw new RangeError("size is too large");
+                }
+                return new Buffer(size);
+            };
+            exports.from = function from(value, encodingOrOffset, length) {
+                if (typeof Buffer.from === "function" && (!global.Uint8Array || Uint8Array.from !== Buffer.from)) {
+                    return Buffer.from(value, encodingOrOffset, length);
+                }
+                if (typeof value === "number") {
+                    throw new TypeError('"value" argument must not be a number');
+                }
+                if (typeof value === "string") {
+                    return new Buffer(value, encodingOrOffset);
+                }
+                if (typeof ArrayBuffer !== "undefined" && value instanceof ArrayBuffer) {
+                    var offset = encodingOrOffset;
+                    if (arguments.length === 1) {
+                        return new Buffer(value);
+                    }
+                    if (typeof offset === "undefined") {
+                        offset = 0;
+                    }
+                    var len = length;
+                    if (typeof len === "undefined") {
+                        len = value.byteLength - offset;
+                    }
+                    if (offset >= value.byteLength) {
+                        throw new RangeError("'offset' is out of bounds");
+                    }
+                    if (len > value.byteLength - offset) {
+                        throw new RangeError("'length' is out of bounds");
+                    }
+                    return new Buffer(value.slice(offset, offset + len));
+                }
+                if (Buffer.isBuffer(value)) {
+                    var out = new Buffer(value.length);
+                    value.copy(out, 0, 0, value.length);
+                    return out;
+                }
+                if (value) {
+                    if (Array.isArray(value) || typeof ArrayBuffer !== "undefined" && value.buffer instanceof ArrayBuffer || "length" in value) {
+                        return new Buffer(value);
+                    }
+                    if (value.type === "Buffer" && Array.isArray(value.data)) {
+                        return new Buffer(value.data);
+                    }
+                }
+                throw new TypeError("First argument must be a string, Buffer, " + "ArrayBuffer, Array, or array-like object.");
+            };
+            exports.allocUnsafeSlow = function allocUnsafeSlow(size) {
+                if (typeof Buffer.allocUnsafeSlow === "function") {
+                    return Buffer.allocUnsafeSlow(size);
+                }
+                if (typeof size !== "number") {
+                    throw new TypeError("size must be a number");
+                }
+                if (size >= MAX_LEN) {
+                    throw new RangeError("size is too large");
+                }
+                return new SlowBuffer(size);
+            };
+        }).call(exports, function() {
+            return this;
+        }());
     }, function(module, exports, __webpack_require__) {
         (function(Buffer) {
             function isArray(arg) {
@@ -7309,7 +7363,8 @@
         }).call(exports, __webpack_require__(30).Buffer);
     }, function(module, exports) {}, function(module, exports, __webpack_require__) {
         "use strict";
-        var Buffer = __webpack_require__(64).Buffer;
+        var Buffer = __webpack_require__(30).Buffer;
+        var bufferShim = __webpack_require__(64);
         module.exports = BufferList;
         function BufferList() {
             this.head = null;
@@ -7355,9 +7410,9 @@
             return ret;
         };
         BufferList.prototype.concat = function(n) {
-            if (this.length === 0) return Buffer.alloc(0);
+            if (this.length === 0) return bufferShim.alloc(0);
             if (this.length === 1) return this.head.data;
-            var ret = Buffer.allocUnsafe(n >>> 0);
+            var ret = bufferShim.allocUnsafe(n >>> 0);
             var p = this.head;
             var i = 0;
             while (p) {
@@ -7424,7 +7479,8 @@
                 deprecate: __webpack_require__(72)
             };
             var Stream = __webpack_require__(63);
-            var Buffer = __webpack_require__(64).Buffer;
+            var Buffer = __webpack_require__(30).Buffer;
+            var bufferShim = __webpack_require__(64);
             util.inherits(Writable, Stream);
             function nop() {}
             function WriteReq(chunk, encoding, cb) {
@@ -7570,7 +7626,7 @@
             };
             function decodeChunk(state, chunk, encoding) {
                 if (!state.objectMode && state.decodeStrings !== false && typeof chunk === "string") {
-                    chunk = Buffer.from(chunk, encoding);
+                    chunk = bufferShim.from(chunk, encoding);
                 }
                 return chunk;
             }
@@ -7993,7 +8049,7 @@
         }());
     }, function(module, exports, __webpack_require__) {
         "use strict";
-        var Buffer = __webpack_require__(64).Buffer;
+        var Buffer = __webpack_require__(74).Buffer;
         var isEncoding = Buffer.isEncoding || function(encoding) {
             encoding = "" + encoding;
             switch (encoding && encoding.toLowerCase()) {
@@ -8229,6 +8285,8 @@
             return buf && buf.length ? this.write(buf) : "";
         }
     }, function(module, exports, __webpack_require__) {
+        module.exports = __webpack_require__(30);
+    }, function(module, exports, __webpack_require__) {
         "use strict";
         module.exports = Transform;
         var Duplex = __webpack_require__(68);
@@ -8315,7 +8373,7 @@
     }, function(module, exports, __webpack_require__) {
         "use strict";
         module.exports = PassThrough;
-        var Transform = __webpack_require__(74);
+        var Transform = __webpack_require__(75);
         var util = __webpack_require__(65);
         util.inherits = __webpack_require__(59);
         util.inherits(PassThrough, Transform);
@@ -8538,7 +8596,7 @@
             return self._cipher.decryptBlock(block);
         };
     }, function(module, exports, __webpack_require__) {
-        var xor = __webpack_require__(85);
+        var xor = __webpack_require__(86);
         exports.encrypt = function(self, block) {
             var data = xor(block, self._prev);
             self._prev = self._cipher.encryptBlock(data);
@@ -8565,7 +8623,7 @@
         }).call(exports, __webpack_require__(30).Buffer);
     }, function(module, exports, __webpack_require__) {
         (function(Buffer) {
-            var xor = __webpack_require__(85);
+            var xor = __webpack_require__(86);
             exports.encrypt = function(self, data, decrypt) {
                 var out = new Buffer("");
                 var len;
@@ -8595,7 +8653,7 @@
         }).call(exports, __webpack_require__(30).Buffer);
     }, function(module, exports, __webpack_require__) {
         (function(Buffer) {
-            var xor = __webpack_require__(85);
+            var xor = __webpack_require__(86);
             function getBlock(self) {
                 self._prev = self._cipher.encryptBlock(self._prev);
                 return self._prev;
@@ -8611,7 +8669,7 @@
         }).call(exports, __webpack_require__(30).Buffer);
     }, function(module, exports, __webpack_require__) {
         (function(Buffer) {
-            var xor = __webpack_require__(85);
+            var xor = __webpack_require__(86);
             function getBlock(self) {
                 var out = self._cipher.encryptBlock(self._prev);
                 incr32(self._prev);
@@ -8645,9 +8703,9 @@
             var aes = __webpack_require__(55);
             var Transform = __webpack_require__(56);
             var inherits = __webpack_require__(59);
-            var modes = __webpack_require__(80);
-            var StreamCipher = __webpack_require__(82);
-            var ebtk = __webpack_require__(81);
+            var modes = __webpack_require__(81);
+            var StreamCipher = __webpack_require__(83);
+            var ebtk = __webpack_require__(82);
             inherits(Decipher, Transform);
             function Decipher(mode, key, iv) {
                 if (!(this instanceof Decipher)) {
@@ -8709,11 +8767,11 @@
                 return last.slice(0, 16 - padded);
             }
             var modelist = {
-                ECB: __webpack_require__(83),
-                CBC: __webpack_require__(84),
-                CFB: __webpack_require__(86),
-                OFB: __webpack_require__(87),
-                CTR: __webpack_require__(88)
+                ECB: __webpack_require__(84),
+                CBC: __webpack_require__(85),
+                CFB: __webpack_require__(87),
+                OFB: __webpack_require__(88),
+                CTR: __webpack_require__(89)
             };
             module.exports = function(crypto) {
                 function createDecipheriv(suite, password, iv) {
