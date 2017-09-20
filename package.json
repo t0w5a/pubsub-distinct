@@ -1,6 +1,6 @@
 {
   "name": "pubsub-distinct",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "PubSub service based on rx-pubsub with an additional publishDistinct() method",
   "main": "dist/pubsub-distinct.min.js",
   "types": "index.d.ts",
@@ -40,7 +40,7 @@
     "duplicate"
   ],
   "dependencies": {
-    "rx-pubsub": "^0.1.2",
+    "rx-pubsub": "^0.2.1",
     "rxjs": "^5.3.1"
   },
   "devDependencies": {

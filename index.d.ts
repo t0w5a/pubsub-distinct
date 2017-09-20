@@ -20,37 +20,37 @@ import {Subscription} from 'rxjs/Subscription';
  */
 
 declare class PubSubDistinct {
-    protected events: any;
+    protected static events: any;
 
-    public publish(eventName: string, data: any, previousMessagesNr?: number, saveHash?: boolean): PubSubDistinct;
+    static publish(eventName: string, data: any, previousMessagesNr?: number, saveHash?: boolean): void;
 
-    public publishDistinct(eventName: string, data: any, previousMessagesNr?: number): PubSubDistinct;
+    static publishDistinct(eventName: string, data: any, previousMessagesNr?: number): void;
 
-    public subscribe(eventName: string, callback: (data?: any) => any, previousMessagesNr?: number): Subscription;
+    static subscribe(eventName: string, callback: (data?: any) => any, previousMessagesNr?: number): Subscription;
 
-    public subscribeOnce(eventName: string, callback: (data?: any) => any): Subscription|boolean;
+    static subscribeOnce(eventName: string, callback: (data?: any) => any): Subscription|boolean;
 
-    public unsubscribe(subscriber: any): PubSubDistinct;
+    static unsubscribe(subscriber: any): void;
 
-    public unsubscribeAll(subscribers: Subscription[]): PubSubDistinct;
+    static unsubscribeAll(subscribers: Subscription[]): void;
 
-    public dispose(eventName: string): PubSubDistinct;
+    static dispose(eventName: string): void;
 
-    public hasSubscribers(eventName: string): boolean;
+    static hasSubscribers(eventName: string): boolean;
 
-    public getEvents(): any;
+    static getEvents(): any;
 
-    public getSubjects(): any;
+    static getSubjects(): any;
 
-    protected getSubjectByEventName(eventName: string, previousMessagesNr: number): ReplaySubject<any>;
+    static getSubjectByEventName(eventName: string, previousMessagesNr: number): ReplaySubject<any>;
 
-    protected isCallback(callback: (data?: any) => any): boolean;
+    static isCallback(callback: (data?: any) => any): boolean;
 
-    protected setHashToEvent(eventName: string, dataHash: string): PubSubDistinct;
+    static setHashToEvent(eventName: string, dataHash: string): void;
 
-    protected getEventHash(eventName: string): string|boolean;
+    static getEventHash(eventName: string): string|boolean;
 
-    protected getDataHash(data: any): string;
+    static getDataHash(data: any): string;
 }
 
 export {PubSubDistinct, Subscription};

@@ -1,4 +1,4 @@
-/*! version: "0.1.2" */
+/*! version: "0.2.0" */
 (function webpackUniversalModuleDefinition(root, factory) {
     if (typeof exports === "object" && typeof module === "object") module.exports = factory(); else if (typeof define === "function" && define.amd) define([], factory); else {
         var a = factory();
@@ -57,7 +57,7 @@
             canDefineProperty = true;
         } catch (x) {}
         var hotApplyOnUpdate = true;
-        var hotCurrentHash = "305f7166961145d19d2f";
+        var hotCurrentHash = "181a8e2e2a9ace9f4a13";
         var hotCurrentModuleData = {};
         var hotCurrentParents = [];
         function hotCreateRequire(moduleId) {
@@ -485,7 +485,7 @@
             function PubSubDistinct() {
                 return _super !== null && _super.apply(this, arguments) || this;
             }
-            PubSubDistinct.prototype.publish = function(eventName, data, previousMessagesNr, saveHash) {
+            PubSubDistinct.publish = function(eventName, data, previousMessagesNr, saveHash) {
                 if (previousMessagesNr === void 0) {
                     previousMessagesNr = 1;
                 }
@@ -498,9 +498,8 @@
                 }
                 var subject = this.getSubjectByEventName(eventName, previousMessagesNr);
                 subject.next(data);
-                return this;
             };
-            PubSubDistinct.prototype.publishDistinct = function(eventName, data, previousMessagesNr) {
+            PubSubDistinct.publishDistinct = function(eventName, data, previousMessagesNr) {
                 if (previousMessagesNr === void 0) {
                     previousMessagesNr = 1;
                 }
@@ -511,9 +510,8 @@
                     this.setHashToEvent(eventName, hash);
                     subject.next(data);
                 }
-                return this;
             };
-            PubSubDistinct.prototype.getSubjectByEventName = function(eventName, previousMessagesNr) {
+            PubSubDistinct.getSubjectByEventName = function(eventName, previousMessagesNr) {
                 if (previousMessagesNr === void 0) {
                     previousMessagesNr = 1;
                 }
@@ -525,19 +523,18 @@
                 }
                 return this.events[eventName].subject;
             };
-            PubSubDistinct.prototype.setHashToEvent = function(eventName, dataHash) {
+            PubSubDistinct.setHashToEvent = function(eventName, dataHash) {
                 if (this.events[eventName]) {
                     this.events[eventName].dataHash = dataHash;
                 }
-                return this;
             };
-            PubSubDistinct.prototype.getEventHash = function(eventName) {
+            PubSubDistinct.getEventHash = function(eventName) {
                 if (this.events[eventName]) {
                     return this.events[eventName].dataHash;
                 }
                 return false;
             };
-            PubSubDistinct.prototype.getDataHash = function(data) {
+            PubSubDistinct.getDataHash = function(data) {
                 return hash.sha1(data);
             };
             return PubSubDistinct;
@@ -1832,48 +1829,43 @@
                     value: !0
                 });
                 var n = r(12), i = function() {
-                    function t() {
-                        this.events = {};
-                    }
-                    return t.prototype.publish = function(t, e, r) {
-                        return void 0 === r && (r = 1), this.getSubjectByEventName(t, r).next(e), this;
-                    }, t.prototype.subscribe = function(t, e, r) {
-                        if (void 0 === r && (r = 1), !this.isCallback(e)) return !1;
-                        var n = this.getSubjectByEventName(t, r).subscribe(e);
-                        return n;
-                    }, t.prototype.subscribeOnce = function(t, e) {
+                    function t() {}
+                    return t.publish = function(t, e, r) {
+                        void 0 === r && (r = 1), this.getSubjectByEventName(t, r).next(e);
+                    }, t.subscribe = function(t, e, r) {
+                        return void 0 === r && (r = 1), !!this.isCallback(e) && this.getSubjectByEventName(t, r).subscribe(e);
+                    }, t.subscribeOnce = function(t, e) {
                         var r = this;
                         if (!this.isCallback(e)) return !1;
                         var n = this.getSubjectByEventName(t).subscribe(function(t) {
                             e(t), r.unsubscribe(n);
                         });
                         return n;
-                    }, t.prototype.unsubscribe = function(t) {
-                        return t && t.unsubscribe(), this;
-                    }, t.prototype.unsubscribeAll = function(t) {
-                        return t && t.forEach(function(t) {
+                    }, t.unsubscribe = function(t) {
+                        t && t.unsubscribe();
+                    }, t.unsubscribeAll = function(t) {
+                        t && t.forEach(function(t) {
                             t.unsubscribe();
-                        }), this;
-                    }, t.prototype.dispose = function(t) {
-                        return this.events[t] ? (this.getSubjectByEventName(t).unsubscribe(), delete this.events[t]) : console.warn("The event [" + t + "] doesn't exist!"), 
-                        this;
-                    }, t.prototype.hasSubscribers = function(t) {
+                        });
+                    }, t.dispose = function(t) {
+                        this.events[t] ? (this.getSubjectByEventName(t).unsubscribe(), delete this.events[t]) : console.warn("The event [" + t + "] doesn't exist!");
+                    }, t.hasSubscribers = function(t) {
                         var e = !1;
                         return this.events[t] && this.getSubjectByEventName(t).observers.length > 0 && (e = !0), 
                         e;
-                    }, t.prototype.getEvents = function() {
+                    }, t.getEvents = function() {
                         return this.events;
-                    }, t.prototype.getSubjects = function() {
+                    }, t.getSubjects = function() {
                         return this.getEvents();
-                    }, t.prototype.getSubjectByEventName = function(t, e) {
+                    }, t.getSubjectByEventName = function(t, e) {
                         return void 0 === e && (e = 1), this.events[t] || (this.events[t] = new n.ReplaySubject(e)), 
                         this.events[t];
-                    }, t.prototype.isCallback = function(t) {
+                    }, t.isCallback = function(t) {
                         return !(!t || "function" != typeof t) || (console.warn("Callback is missing! Subscription cancelled!"), 
                         !1);
                     }, t;
                 }();
-                e.RxPubSub = i;
+                i.events = {}, e.RxPubSub = i;
             }, function(t, e, r) {
                 "use strict";
                 function n(t) {

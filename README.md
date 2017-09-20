@@ -14,25 +14,24 @@ which publishes only distinct data. It means, the same data will not be publishe
 
 #### Example:
 ```javascript
-let pubsub = new PubSubDistinct(); // create new PubSubDistinct Object
 let eventName = 'testEvent';
   
 console.log('register the subscriber to the event');
-let sub1 = pubsub.subscribe(eventName, (data) => {
+let sub1 = PubSubDistinct.subscribe(eventName, (data) => {
     console.log('subscriber receives data: ', data);
 });  
   
 console.log('publish data to the event');
-pubsub.publish(eventName, {testProp: 'test Value'});
+PubSubDistinct.publishDistinct(eventName, {testProp: 'test Value'});
 
 console.log('publish other data to the event');
-pubsub.publish(eventName, {testProp: 'test Value 2'});
+PubSubDistinct.publishDistinct(eventName, {testProp: 'test Value 2'});
 
 console.log('publish the same data as the previous one. the subscriber shouldn\'t be triggered!');
-pubsub.publish(eventName, {testProp: 'test Value 2'});
+PubSubDistinct.publishDistinct(eventName, {testProp: 'test Value 2'});
 
 console.log('publish new data');
-pubsub.publish(eventName, {testProp: 'test Value 3'});
+PubSubDistinct.publishDistinct(eventName, {testProp: 'test Value 3'});
 ```
 
 #### Output:
@@ -65,7 +64,7 @@ npm install pubsub-distinct --save-dev
 ```
 
 ### <a name="usage"></a>3. Usage
-In order to use the `PubSubDistinct` service you have to include/import 
+In order to use the `PubSubDistinct` you have to include/import 
 it into your application:
 
 ```typescript
@@ -94,7 +93,7 @@ The same data will not be published two times in a row!
 buffer  
   
 *Return:*  
-Method returns `PubSubDistinct` *this* object.
+Method returns `void`.
 
   
   
@@ -105,4 +104,4 @@ The description of other methods can be found in the
 [https://github.com/t0w5a/pubsub-distinct](https://github.com/t0w5a/pubsub-distinct)
 
 ### <a name="version"></a>6. Version
-0.1.2
+0.2.0
